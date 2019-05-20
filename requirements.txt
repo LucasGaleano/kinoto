@@ -1,0 +1,6 @@
+elasticsearch_dsl
+matplotlib
+numpy
+elasticsearch
+pillow
+python-resize-image

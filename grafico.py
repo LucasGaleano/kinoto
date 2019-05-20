@@ -1,9 +1,19 @@
-from client import plt
+import numpy as np
+import matplotlib.pyplot as plt
+from elastic import response
 
 class Grafico:
 
-    def crearGraficoBarra(self):
-        figura = plt.gcf()
-        figura.savefig('./grafico.png', bbox_inches='tight')
+    def crearGraficoWebFilter(self):
+        # Make dataset:
+        height = [x['doc_count'] for x in response]
+        bars = [x['key'] for x in response]
+        y_pos = np.arange(len(bars))
 
+        # Create bars
+        plt.barh(y_pos, height)
 
+        # Create names on the x-axis
+        plt.yticks(y_pos, bars)
+
+        plt.savefig('./imagenes/graficoDeBarra.png', bbox_inches='tight')

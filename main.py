@@ -1,13 +1,12 @@
 from documento import Word
 from grafico import Grafico
 
-
 grafico = Grafico()
-
-grafico.crearGraficoBarra()
+grafico.crearGraficoWebFilter()
 
 documento = Word()
-
-documento.crearDocumento()
-
-
+informe = documento.abrirDocumento()
+documento.titulo(informe)
+documento.webFilter(informe)
+documento.insertarGraficoBarras(informe)
+documento.crearDocx(informe)
