@@ -1,11 +1,8 @@
-from elasticsearch import Elasticsearch
 from query import query_users
 import requests
 import json
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-
+import numpy as np
 URI = 'http://localhost:9200/_search'
 
 response = requests.get(URI, data=query_users, headers={"content-type":"application/json"})
@@ -22,5 +19,4 @@ plt.barh(y_pos, height)
 # Create names on the x-axis
 plt.yticks(y_pos, bars)
 
-# Show graphic
-plt.show()
+
