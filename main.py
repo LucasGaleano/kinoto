@@ -6,6 +6,6 @@ grafico.crearGraficoWebFilter()
 
 documento = Word()
 informe = documento.abrirDocumento()
-#documento.titulo(informe)
+documento.titulo(informe)
 documento.webFilter(informe)
 documento.crearDocx(informe)
