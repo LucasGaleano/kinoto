@@ -1,7 +1,6 @@
 from docx import Document
 from docx.enum.text import WD_BREAK
 from docx.enum.style import WD_STYLE_TYPE
-from PIL import Image
 from datetime import datetime
 from docx.shared import Pt
 from docx.dml.color import ColorFormat
