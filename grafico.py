@@ -1,10 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from elastic import response
+from elastic import Info
 
 class Grafico:
 
     def crearGraficoWebFilter(self):
+        informacion = Info()
+        response = informacion.infoWebFilter()
         # Make dataset:
         height = [x['doc_count'] for x in response]
         bars = [x['key'] for x in response]

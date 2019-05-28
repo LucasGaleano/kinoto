@@ -7,6 +7,7 @@ from docx.dml.color import ColorFormat
 from docx.shared import RGBColor
 from auxiliares import devolverMes
 from estilo import Estilos
+from elastic import Info
 
 class Word:
 
@@ -34,22 +35,32 @@ class Word:
         informe.add_page_break()
 
     def webFilter(self, informe):
+        informacion = Info()
+        response = informacion.infoWebFilter()
+
         informe.add_paragraph('Top de bloqueos de Webfilter por usuario', style = 'Heading 1')
         informe.add_paragraph('En el siguiente gráfico se detallan los usuarios con mas urls bloqueadas por parte del webfilter del fortigate.', style='Body Text')
         column_tags = []
         column_tags.append('Users')
         column_tags.append('Blocks')
-        self.tabla(informe, 2, 11, column_tags)
+        self.tabla(informe, 2, column_tags, response)
         informe.add_picture('./imagenes/graficoDeBarra.png')
         informe.add_page_break()
 
-    def tabla(self, informe, columns, rows, column_tags):
-        table = informe.add_table(rows = rows, cols = columns)
+    def tabla(self, informe, columns, column_tags, informacion):
+        table = informe.add_table(rows = 1, cols = columns)
         #table.autofit = True
-        table_style = "BTR Table"
-        table.style = table_style 
+        table.style = "BTR Table"
         column_etiquetas = table.rows[0].cells
         index = 0
         for i in column_etiquetas:
             i.text = column_tags[index]
             index += 1
+
+        zip_informacion = zip([i.key for i in informacion],[i.doc_count for i in informacion])
+        diccionario_informacion = dict(zip_informacion)
+
+        for key, value in diccionario_informacion.items():
+            row = table.add_row().cells
+            row[0].text = key
+            row[1].text = str(value)
