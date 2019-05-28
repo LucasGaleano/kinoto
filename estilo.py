@@ -4,15 +4,11 @@ from docx.shared import Pt
 from docx.dml.color import ColorFormat
 from docx.shared import RGBColor
 
-
-
-
-
 class Estilos:
-
 
             def styleHeading1 (self, documento):
                 styles = documento.styles
+                #styles['Heading 1'].delete()
                 style = styles.add_style('Heading 1', WD_STYLE_TYPE.PARAGRAPH)
                 font = style.font
                 font.name = 'Lato Light'
