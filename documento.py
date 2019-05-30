@@ -18,38 +18,29 @@ class Word:
         estilos.styleBodyText(informe)
         estilos.styleHeading1(informe)
         estilos.styleSubtitle(informe)
-
-
         return informe
 
 
     def crearDocx(self, informe):
         informe.save('./informe/informe.docx')
 
-    def titulo(self, informe):
-        currentMonth = datetime.now().month
-        currentYear = datetime.now().year
-        mesActual = devolverMes(currentMonth)
-        informe.add_paragraph('Reporte Mensual OSSIM', style = 'Title')
-        informe.add_paragraph(f'{mesActual} {currentYear}', style = 'Subtitle')
+    def titulo(self, informe, title, subtitle):
+
+        #mesActual = devolverMes(currentMonth)
+        informe.add_paragraph(title, style = 'Title')
+        informe.add_paragraph(subtitle, style = 'Subtitle')
         informe.add_page_break()
 
-    def webFilter(self, informe):
-        informacion = Info()
-        response = informacion.infoWebFilter()
+    def webFilter(self, informe, response, title, introduction, column_tags):
 
-        informe.add_paragraph('Top de bloqueos de Webfilter por usuario', style = 'Heading 1')
-        informe.add_paragraph('En el siguiente gráfico se detallan los usuarios con mas urls bloqueadas por parte del webfilter del fortigate.', style='Body Text')
-        column_tags = []
-        column_tags.append('Users')
-        column_tags.append('Blocks')
-        self.tabla(informe, 2, column_tags, response)
+        informe.add_paragraph(title, style = 'Heading 1')
+        informe.add_paragraph(introduction, style='Body Text')
+        self.tabla(informe, column_tags, response)
         informe.add_picture('./imagenes/graficoDeBarra.png')
         informe.add_page_break()
 
-    def tabla(self, informe, columns, column_tags, informacion):
-        table = informe.add_table(rows = 1, cols = columns)
-        #table.autofit = True
+    def tabla(self, informe, column_tags, informacion):
+        table = informe.add_table(rows = 1, cols = len(column_tags))
         table.style = "BTR Table"
         column_etiquetas = table.rows[0].cells
         index = 0
@@ -57,8 +48,7 @@ class Word:
             i.text = column_tags[index]
             index += 1
 
-        zip_informacion = zip([i.key for i in informacion],[i.doc_count for i in informacion])
-        diccionario_informacion = dict(zip_informacion)
+        diccionario_informacion = dict(zip([i.key for i in informacion],[i.doc_count for i in informacion]))
 
         for key, value in diccionario_informacion.items():
             row = table.add_row().cells
