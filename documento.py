@@ -8,6 +8,7 @@ from docx.shared import RGBColor
 from auxiliares import devolverMes
 from estilo import Estilos
 from elastic import Info
+from grafico import Grafico
 
 class Word:
 
@@ -21,21 +22,22 @@ class Word:
         return informe
 
 
-    def crearDocx(self, informe):
+    def guarda(self, informe):
         informe.save('./informe/informe.docx')
 
     def titulo(self, informe, title, subtitle):
 
-        #mesActual = devolverMes(currentMonth)
         informe.add_paragraph(title, style = 'Title')
         informe.add_paragraph(subtitle, style = 'Subtitle')
         informe.add_page_break()
 
-    def webFilter(self, informe, response, title, introduction, column_tags):
+    def creaPagina(self, informe, response, title, introduction, column_tags):
 
         informe.add_paragraph(title, style = 'Heading 1')
         informe.add_paragraph(introduction, style='Body Text')
         self.tabla(informe, column_tags, response)
+
+        grafico = Grafico().crearGrafico([i.doc_count for i in response], [i.key for i in response], filename='graficoDeBarra.png')
         informe.add_picture('./imagenes/graficoDeBarra.png')
         informe.add_page_break()
 
