@@ -12,16 +12,32 @@ class Info:
         s = Search(index='ossim-osdepym*')
         s = s.query('match',action='block')
         s = s.filter('range', log_date={"gte": 1554087600000,"lte": 1556679599999})
-        s.aggs.bucket('users', A('significant_terms', field='user.keyword', size=10))
+        s.aggs.bucket('users', A('terms', field='user.keyword', size=10, order={ "_count": "desc"}))
 
-        webFilter  = s.execute().aggregations.users.buckets
-        return webFilter
+        return s.execute().aggregations.users.buckets
+
 
     def infoTopApp(self):
         s = Search(index='ossim-osdepym*')
         s = s.query('match_all')
         s = s.filter('range', log_date={"gte": 1554087600000,"lte": 1556679599999})
-        s.aggs.bucket('users', A('significant_terms', field='app.keyword', size=10))
+        s.aggs.bucket('users', A('terms', field='app.keyword', size=10, order={ "_count": "desc"}))
 
-        topApp  = s.execute().aggregations.users.buckets
-        return topApp
+        return s.execute().aggregations.users.buckets
+
+
+    def infoFlowLogs(self):
+        s = Search(index='ossim-osdepym*')
+        s = s.query('match_all')
+        s = s.filter('range', log_date={"gte": 1554087600000,"lte": 1556679599999})
+        s.aggs.bucket('users', A('date_histogram', field='log_date', interval="30m",time_zone="America/Argentina/Buenos_Aires",min_doc_count=1))
+
+        return s.execute().aggregations.users.buckets
+
+    def infoFirewallActions(self):
+        s = Search(index='ossim-osdepym*')
+        s = s.query('match_all')
+        s = s.filter('range', log_date={"gte": 1554087600000,"lte": 1556679599999})
+        s.aggs.bucket('actions', A('terms', field='action.keyword', size=10, order={ "_count": "desc"}))
+
+        return s.execute().aggregations.actions.buckets

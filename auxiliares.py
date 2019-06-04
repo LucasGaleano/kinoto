@@ -14,3 +14,6 @@ def devolverMes(month):
         12: "Diciembre",
     }
     return switcher.get(month)
+
+def creaDiccionario(query, keys):
+    return zip()
