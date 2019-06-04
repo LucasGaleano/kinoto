@@ -4,10 +4,31 @@ from datetime import datetime
 from elastic import Info
 from auxiliares import devolverMes
 
-response = Info().infoWebFilter()
+elastic = Info()
+print ("Creando conexion..", end = '')
+elastic.crearConexion()
+print (".. Listo!")
+
+print ("Recopilando info..", end = '')
+webFilter = elastic.infoWebFilter()
+topApp = elastic.infoTopApp()
+print (".. Listo!")
 
 documento = Word()
+
+print ("Creando Word..", end = '')
 informe = documento.abrirDocumento()
+print (".. Listo!")
+
+print ("Aplicando titulo..", end = '')
 documento.titulo(informe, title='Reporte Mensual OSSIM', subtitle=f'{devolverMes(datetime.now().month)} {datetime.now().year}')
-documento.creaPagina(informe, response, title='Top de bloqueos de Webfilter por usuario', introduction='\nEn el siguiente gráfico se detallan los usuarios con mas urls bloqueadas por parte del webfilter del fortigate.\n', column_tags=['Users', 'Blocks'])
+print (".. Listo!")
+
+print ("Creando paginas..", end = '')
+documento.creaPagina(informe, webFilter, title='Top de bloqueos de Webfilter por usuario', introduction='\nEn el siguiente gráfico se detallan los usuarios con mas urls bloqueadas por parte del webfilter del fortigate.\n', column_tags=['Users', 'Blocks'])
+documento.creaPagina(informe, topApp, title='Top de aplicaciones', introduction='\nEn el siguiente gráfico se detallan las aplicaciones mas usadas.\n', column_tags=['App', 'Traffic'])
+print (".. Listo!")
+
+print ("Guardando informe..", end = '')
 documento.guarda(informe)
+print (".. Listo!")

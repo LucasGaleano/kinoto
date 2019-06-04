@@ -6,45 +6,23 @@ from docx.shared import RGBColor
 
 class Estilos:
 
-            def styleHeading1 (self, documento):
+            def definirEstilo(self, documento):
                 styles = documento.styles
-                styles['Heading 1'].delete()
-                style = styles.add_style('Heading 1', WD_STYLE_TYPE.PARAGRAPH)
-                font = style.font
-                font.name = 'Lato Light'
-                font.size = Pt(20)
-                color = font.color
-                color.rgb = RGBColor(223, 125, 14)
-
-
-            def styleBodyText (self, documento):
-                styles = documento.styles
-                styles['Body Text'].delete()
-                style = styles.add_style('Body Text', WD_STYLE_TYPE.PARAGRAPH)
-                font = style.font
-                font.name = 'Lato Light'
-                font.size = Pt(14)
-                color = font.color
-                color.rgb = RGBColor(41,39,39)
-
-            def styleTitle(self, documento):
-                styles = documento.styles
-                styles['Title'].delete()
-                style = styles.add_style('Title', WD_STYLE_TYPE.PARAGRAPH)
-                font = style.font
-                font.name = 'Lato Light'
-                font.size = Pt(26)
-                font.bold= True
-                color = font.color
-                color.rgb = RGBColor(255,255,255)
-
-            def styleSubtitle (self, documento):
-                styles = documento.styles
-                styles['Subtitle'].delete()
-                style = styles.add_style('Subtitle', WD_STYLE_TYPE.PARAGRAPH)
-                font = style.font
-                font.name = 'Lato Light'
-                font.size = Pt(24)
-                font.bold= True
-                color = font.color
-                color.rgb = RGBColor(255,255,255)
+                self.styleBTR(styles,'Title', 26, True, 255, 255, 255)
+                self.styleBTR(styles, 'Subtitle', 24, True, 255, 255, 255)
+                self.styleBTR(styles, 'Heading 1',20, False, 223,125, 14)
+                self.styleBTR(styles, 'Body Text', 14, False, 41, 39, 39)
+            
+            def styleBTR (self, styles,nombreEstilo, pt, bold, r, g, b):
+                try:
+                    styles[nombreEstilo].delete()
+                except:
+                    pass
+                finally:
+                    style = styles.add_style(nombreEstilo, WD_STYLE_TYPE.PARAGRAPH)
+                    font = style.font
+                    font.name = 'Lato Light'
+                    font.size = Pt(pt)
+                    font.bold = bold
+                    color = font.color
+                    color.rgb = RGBColor(r,g,b)
