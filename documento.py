@@ -1,14 +1,15 @@
 from docx import Document
-from docx.enum.text import WD_BREAK
+from docx.enum.text import WD_BREAK, WD_LINE_SPACING
 from docx.enum.style import WD_STYLE_TYPE
 from datetime import datetime
-from docx.shared import Pt
+from docx.shared import Pt, Inches
 from docx.dml.color import ColorFormat
-from docx.shared import RGBColor
+from docx.shared import RGBColor, Cm
 from auxiliares import devolverMes
 from estilo import Estilos
 from elastic import Info
 from grafico import Grafico
+
 
 class Word:
 
@@ -44,15 +45,26 @@ class Word:
     def tabla(self, informe, column_tags, informacion):
         table = informe.add_table(rows = 1, cols = len(column_tags))
         table.style = "BTR Table"
+        table.autofit = False
+        table.width = Cm(4.19)
         column_etiquetas = table.rows[0].cells
         index = 0
+        for cell in table.columns[0].cells:
+            cell.width = Cm(4.19)
+
+        for cell in table.columns[1].cells:
+            cell.width = Cm(4.19)
+
         for i in column_etiquetas:
             i.text = column_tags[index]
             index += 1
 
         diccionario_informacion = dict(zip([i.key for i in informacion],[i.doc_count for i in informacion]))
 
+
+
         for key, value in diccionario_informacion.items():
-            row = table.add_row().cells
-            row[0].text = key
-            row[1].text = str(value)
+            row = table.add_row()
+            cells = row.cells
+            cells[0].text = key.capitalize()
+            cells[1].text = str(value)
