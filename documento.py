@@ -28,14 +28,12 @@ class Word:
         informe.add_paragraph(subtitle, style = 'Subtitle')
         informe.add_page_break()
 
-    def creaPagina(self, informe, response, title, introduction, column_tags):
-
+    def creaPagina(self, informe, response, title, introduction, column_tags, grafico, filename):
         informe.add_paragraph(title, style = 'Heading 1')
         informe.add_paragraph(introduction, style='Body Text')
         self.tabla(informe, column_tags, response)
-
-        grafico = Grafico().crearGrafico([i.doc_count for i in response], [i.key for i in response], filename='graficoDeBarra.png')
-        informe.add_picture('./imagenes/graficoDeBarra.png')
+        Grafico().crearGrafico([i.doc_count for i in response], [i.key for i in response], filename= filename, grafico=grafico)
+        informe.add_picture(f'./imagenes/{filename}.png')
         informe.add_page_break()
 
     def tabla(self, informe, column_tags, informacion):

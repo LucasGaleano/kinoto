@@ -25,8 +25,8 @@ documento.titulo(informe, title='Reporte Mensual OSSIM', subtitle=f'{devolverMes
 print (".. Listo!")
 
 print ("Creando paginas..", end = '')
-documento.creaPagina(informe, webFilter, title='Top de bloqueos de Webfilter por usuario', introduction='\nEn el siguiente gráfico se detallan los usuarios con mas urls bloqueadas por parte del webfilter del fortigate.\n', column_tags=['Users', 'Blocks'])
-documento.creaPagina(informe, topApp, title='Top de aplicaciones', introduction='\nEn el siguiente gráfico se detallan las aplicaciones mas usadas.\n', column_tags=['App', 'Traffic'])
+documento.creaPagina(informe, webFilter, title='Top de bloqueos de Webfilter por usuario', introduction='\nEn el siguiente gráfico se detallan los usuarios con mas urls bloqueadas por parte del webfilter del fortigate.\n', column_tags=['Users', 'Blocks'], grafico = 'Barra', filename = 'graficoDeBarra')
+documento.creaPagina(informe, topApp, title='Top de aplicaciones', introduction='\nEn el siguiente gráfico se detallan las aplicaciones mas usadas.\n', column_tags=['App', 'Traffic'], grafico = 'Torta', filename = 'graficoDeTorta')
 print (".. Listo!")
 
 print ("Guardando informe..", end = '')

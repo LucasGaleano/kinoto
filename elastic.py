@@ -21,7 +21,7 @@ class Info:
         s = Search(index='ossim-osdepym*')
         s = s.query('match_all')
         s = s.filter('range', log_date={"gte": 1554087600000,"lte": 1556679599999})
-        s.aggs.bucket('users', A('terms', field='app.keyword', size=10, order={ "_count": "desc"}))
+        s.aggs.bucket('users', A('terms', field='app.keyword', size=5, order={ "_count": "desc"}))
 
         return s.execute().aggregations.users.buckets
 
