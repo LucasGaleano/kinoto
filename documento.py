@@ -1,5 +1,4 @@
 from docx import Document
-from docx.enum.text import WD_BREAK
 from datetime import datetime
 from docx.shared import Pt, Inches
 from docx.dml.color import ColorFormat

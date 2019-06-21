@@ -1,11 +1,11 @@
 from elasticsearch_dsl import connections, Search, A
-import json
+
 
 class Info:
 
 
     def crearConexion(self):
-        connections.create_connection(hosts=['localhost:9200'],timeout=200)
+        connections.create_connection(hosts=['172.27.22.110:9200'],timeout=200)
 
 
     def infoWebFilter(self):
